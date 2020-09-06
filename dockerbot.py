@@ -40,9 +40,8 @@ def getStatement():
         if file.endswith(".png"):
             Image = os.path.join(app.root_path,'..', file)
             return send_file(str(Image), mimetype='image/png')
-        else:
-            Image = os.path.join(app.root_path, 'please_sign.jpg')
-            return send_file(str(Image), mimetype='image/jpeg')
+        Image = os.path.join(app.root_path, 'please_sign.jpg')
+        return send_file(str(Image), mimetype='image/jpeg')
 
 
 
