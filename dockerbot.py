@@ -27,7 +27,7 @@ def sign():
             if file.endswith(".png"):
                 Image = os.path.join("/opt", file)
                 os.remove(str(Image))
-        subprocess.check_output('/usr/bin/python ' + os.path.join(app.root_path,'Health_Staytments.py') + ' -u ' + app.config['v_UserId'] +  ' -p ' + app.config['v_UserKey'] + ' -n ' +  str(app.config['v_KidTotal']) , shell=True)
+        subprocess.check_output('/usr/bin/python ' + os.path.join(app.root_path,'Health_Staytments.py') + ' -u ' + app.config['v_UserId'] +  ' -p ' + app.config['v_UserKey'] + ' -K sign'  , shell=True)
         return jsonify('{"success":"1","data":""}')
         # bot.sendPhoto(chat_id=chat_id, photo=open(str(Image), 'rb'))
     except Exception as e:
