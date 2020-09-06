@@ -1,2 +1,4 @@
-# HAvid-19
-Docker with rest api in order to sign Health statement
+# dockerbot
+Telegram Bot ontop of Docker Container
+
+Forked from: https://github.com/t0mer/dockerbot
