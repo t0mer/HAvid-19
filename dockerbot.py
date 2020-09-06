@@ -36,7 +36,7 @@ def sign():
 
 @app.route('/statement')
 def getStatement():
-    for file in os.listdir(app.instance_path):
+    for file in os.listdir(app.root_path):
         if file.endswith(".png"):
             Image = os.path.join(app.root_path, file)
             return send_file(str(Image), mimetype='image/png')
