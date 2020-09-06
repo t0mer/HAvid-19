@@ -65,6 +65,6 @@ RUN mkdir /opt/dockerbot
 COPY Health_Staytments.py /opt/dockerbot
 COPY dockerbot.py /opt/dockerbot
 
-RUN echo 'export PATH="/opt/chromedriver-85.0.4183.87":$PATH' >> /root/.bashrc && chmod 777 /etc/Health_Staytments.py
+RUN echo 'export PATH="/opt/chromedriver-85.0.4183.87":$PATH' >> /root/.bashrc && chmod 777 /opt/dockerbot/Health_Staytments.py
 
 ENTRYPOINT ["/usr/bin/python", "/opt/dockerbot/dockerbot.py"]
