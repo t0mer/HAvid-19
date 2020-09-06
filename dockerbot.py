@@ -23,9 +23,9 @@ app.config['v_KidTotal']=os.getenv('KIDS_NUM')
 @app.route('/sign')
 def sign():
     try:
-        for file in os.listdir("/opt"):
+        for file in os.listdir(os.path.join(app.root_path,'..')):
             if file.endswith(".png"):
-                Image = os.path.join("/opt", file)
+                Image = os.path.join(app.root_path,'..', file)
                 os.remove(str(Image))
         subprocess.check_output('/usr/bin/python ' + os.path.join(app.root_path,'Health_Staytments.py') + ' -u ' + app.config['v_UserId'] +  ' -p ' + app.config['v_UserKey'] + ' -k sign'  , shell=True)
         return jsonify('{"success":"1","data":""}')
