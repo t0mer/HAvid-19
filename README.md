@@ -1,6 +1,6 @@
-# DockerBot
+# Havid-19
 
-DockerBot is a [Telepot](https://telepot.readthedocs.io/en/latest/) and selenium  powerd, easy to use Telegram bot for signing Covid-19 digital health statement.
+Havid-19 is a [Telepot](https://telepot.readthedocs.io/en/latest/) and selenium  powerd, easy to use Telegram bot for signing Covid-19 digital health statement.
 
 
 #### Credits:
