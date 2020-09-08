@@ -23,8 +23,6 @@ services:
     labels:
       - "com.ouroboros.enable=true"
     environment:
-      - API_KEY= #Telegram BOT API
-      - ALLOWED_IDS= #Your Telegram ID (Get is using @myidbot)
       - USER_ID= #parents.education.gov.il portal user
       - USER_KEY= #parents.education.gov.il portal password
    ports:
