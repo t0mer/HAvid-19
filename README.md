@@ -1,6 +1,6 @@
 # Havid-19
 
-Havid-19 is a [Flask](https://flask.palletsprojects.com/en/1.1.x/) and selenium  powerd, easy to use Telegram bot for signing Covid-19 digital health statement.
+Havid-19 is a [Flask](https://flask.palletsprojects.com/en/1.1.x/) and selenium  powerd, easy to use docker container built for signing Covid-19 digital health statement.
 
 
 #### Credits:
