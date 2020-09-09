@@ -17,7 +17,7 @@ app = Flask(__name__)
 api = Api(app)
 app.config['v_UserId']=os.getenv('USER_ID')
 app.config['v_UserKey']=os.getenv('USER_KEY')
-app.config['v_KidTotal']=os.getenv('KIDS_NUM')
+
 
 
 @app.route('/sign')
