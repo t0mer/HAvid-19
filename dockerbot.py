@@ -8,16 +8,17 @@ from flask_restful import Resource, Api
 
 # #Vars for Selenium covid kids approval
 # v_UserId = os.getenv('USER_ID')
-# v_UserKey = os.getenv('USER_KEY') 
+# v_UserKey = os.getenv('USER_KEY')
 # v_KidTotal = os.getenv('KIDS_NUM')
 # #Auto Commmand List
 
 
 app = Flask(__name__)
 api = Api(app)
+app.config['v_SchoolId']=os.getenv('SCHOOL_ID')
 app.config['v_UserId']=os.getenv('USER_ID')
 app.config['v_UserKey']=os.getenv('USER_KEY')
-
+app.config['v_KidTotal']=os.getenv('KIDS_NUM')
 
 
 @app.route('/sign')
@@ -27,11 +28,14 @@ def sign():
             if file.endswith(".png"):
                 Image = os.path.join(app.root_path,'..', file)
                 os.remove(str(Image))
-        subprocess.check_output('/usr/bin/python ' + os.path.join(app.root_path,'Health_Staytments.py') + ' -u ' + app.config['v_UserId'] +  ' -p ' + app.config['v_UserKey'] + ' -k sign'  , shell=True)
+        if app.config['v_SchoolId'] is None: 
+            subprocess.check_output('/usr/bin/python ' + os.path.join(app.root_path,'Health_Staytments.py') + ' -u ' + app.config['v_UserId'] +  ' -p ' + app.config['v_UserKey']+ ' -k sign'  , shell=True)
+        else:
+            subprocess.check_output('/usr/bin/python ' + os.path.join(app.root_path,'Health_Staytments_School.py') + ' -u ' + app.config['v_UserId'] + ' -s ' + app.config['v_SchoolId'] +  ' -p ' + app.config['v_UserKey']+ ' -k sign'  , shell=True)
         return jsonify('{"success":"1","data":""}')
         # bot.sendPhoto(chat_id=chat_id, photo=open(str(Image), 'rb'))
     except Exception as e:
-        return jsonify('{"success":"1","data":"' + str(e) + '"}')
+        return jsonify('{"success":"0","data":"' + str(e) + '"}')
 
 
 @app.route('/statement')
