@@ -8,9 +8,8 @@ services:
     labels:
       - "com.ouroboros.enable=true"
     environment:
-      - API_KEY= #Telegram BOT API
-      - ALLOWED_IDS= #Your Telegram ID (Get is using @myidbot)
-      - USER_ID= #parents.education.gov.il portal user
-      - USER_KEY= #parents.education.gov.il portal password
+      - SCHOOL_ID= #Your school id "semel mossad" (can be found in https://web.mashov.info/students/login)
+      - USER_ID= #web.mashov.info/student user
+      - USER_KEY= #web.mashov.info/student password
    ports:
       - "6700:6700"
