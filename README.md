@@ -1,3 +1,11 @@
+*Please :star: this repo if you find it useful*
+
+<p align="left"><br>
+<a href="https://www.paypal.com/paypalme/techblogil?locale.x=he_IL" target="_blank"><img src="http://khrolenok.ru/support_paypal.png" alt="PayPal" width="250" height="48"></a>
+</p>
+
+
+
 # Havid-19
 
 Havid-19 is a [Flask](https://flask.palletsprojects.com/en/1.1.x/) and selenium  powerd, easy to use docker container built for signing Covid-19 digital health statement.
