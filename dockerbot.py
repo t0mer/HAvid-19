@@ -1,4 +1,4 @@
-import time, re, random, datetime, telepot
+import time, re, random, datetime
 from subprocess import call
 import subprocess, os, sys
 from flask import Flask, request, make_response, render_template, url_for, g, send_file
