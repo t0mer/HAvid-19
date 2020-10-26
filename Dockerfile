@@ -29,6 +29,8 @@ RUN apt-get -yqq update && \
     apt-get -yqq install curl unzip && \
     apt-get -yqq install xvfb tinywm && \
     apt-get -yqq install fonts-ipafont-gothic xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic && \
+    apt-get -yqq install python && \
+    apt-get -yqq install python-pip && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Chrome WebDriver
