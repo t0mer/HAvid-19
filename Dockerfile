@@ -1,5 +1,5 @@
   
-FROM python
+FROM ubuntu
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
