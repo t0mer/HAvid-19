@@ -93,4 +93,4 @@ RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RE
     echo 'export PATH=/opt/chromedriver-${CHROME_VERSION}:$PATH' >> /root/.bashrc
 
 
-ENTRYPOINT ["/usr/bin/python", "/opt/dockerbot/dockerbot.py"]
+ENTRYPOINT python /opt/dockerbot/dockerbot.py
