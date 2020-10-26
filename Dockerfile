@@ -1,4 +1,5 @@
-FROM python
+  
+FROM debian:stretch
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
