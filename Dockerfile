@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM python
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
@@ -16,6 +16,7 @@ RUN groupadd --system automation && \
     mkdir --parents /home/automation/reports && \
     chown --recursive automation:automation /home/automation
 
+
 # Update the repositories
 # Install dependencies
 # Install utilities
@@ -27,12 +28,11 @@ RUN apt-get -yqq update && \
     apt-get -yqq install curl unzip && \
     apt-get -yqq install xvfb tinywm && \
     apt-get -yqq install fonts-ipafont-gothic xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic && \
-    apt-get -yqq install python && \
-    apt-get -yqq install python-pip && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Chrome WebDriver
-RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
+#CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`
+RUN CHROMEDRIVER_VERSION=86.0.4240.22 && \
     mkdir -p /opt/chromedriver-$CHROMEDRIVER_VERSION && \
     curl -sS -o /tmp/chromedriver_linux64.zip http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip && \
     unzip -qq /tmp/chromedriver_linux64.zip -d /opt/chromedriver-$CHROMEDRIVER_VERSION && \
@@ -58,14 +58,31 @@ ENV CHROMEDRIVER_EXTRA_ARGS ''
 EXPOSE 4444
 EXPOSE 6700
 
-RUN pip install selenium --no-cache-dir && \
-    pip install telepot flask flask_restful cryptography==2.6.1 --no-cache-dir
+RUN pip install selenium pyyaml loguru --no-cache-dir && \
+    pip install flask flask_restful cryptography==2.6.1 --no-cache-dir
 
-RUN mkdir /opt/dockerbot
-COPY Health_Staytments.py /opt/dockerbot
+RUN mkdir -p /opt/dockerbot \
+    mkdir -p /opt/dockerbot/config \
+    mkdir -p /opt/dockerbot/images
+
+# COPY Health_Staytments.py /opt/dockerbot
+# COPY dockerbot.py /opt/dockerbot
+
+COPY config.yml /opt/dockerbot/config
+COPY config.yml /etc
+COPY workers/Health_Statements.py /opt/dockerbot
+COPY workers/Mashov_Health_Statements.py /opt/dockerbot
+COPY workers/Webtop_Health_Statements.py /opt/dockerbot
+COPY workers/Infogan_Health_Statements.py /opt/dockerbot
+COPY helpers.py /opt/dockerbot
 COPY dockerbot.py /opt/dockerbot
 COPY please_sign.jpg /opt/dockerbot
 
-RUN echo 'export PATH="/opt/chromedriver-85.0.4183.87":$PATH' >> /root/.bashrc && chmod 777 /opt/dockerbot/Health_Staytments.py
+#RUN echo 'export PATH="/opt/chromedriver-85.0.4183.87":$PATH' >> /root/.bashrc && chmod 777 /opt/dockerbot/Health_Staytments.py
+
+RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
+    echo "export CHROME_VERSION=86.0.4240.22" >> /root/.bashrc && \
+    echo 'export PATH=/opt/chromedriver-${CHROME_VERSION}:$PATH' >> /root/.bashrc
+
 
 ENTRYPOINT ["/usr/bin/python", "/opt/dockerbot/dockerbot.py"]

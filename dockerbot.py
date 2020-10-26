@@ -1,7 +1,6 @@
 import time, re, random, datetime, telepot
 from subprocess import call
 import subprocess, os, sys
-from telepot.loop import MessageLoop
 from flask import Flask, request, make_response, render_template, url_for, g, send_file
 from flask import send_from_directory, jsonify
 from flask_restful import Resource, Api
@@ -11,6 +10,20 @@ from flask_restful import Resource, Api
 # v_UserKey = os.getenv('USER_KEY') 
 # v_KidTotal = os.getenv('KIDS_NUM')
 # #Auto Commmand List
+
+
+configfile="/opt/dockerbot/config/config.yml"
+original_configfile = r'/etc/config.yml'
+
+
+def copyConfig():
+    if not os.path.exists(configfile):
+        shutil.copyfile(original_configfile, configfile)
+
+
+copyConfig()
+
+
 
 
 app = Flask(__name__)
