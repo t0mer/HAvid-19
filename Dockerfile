@@ -61,8 +61,13 @@ ENV CHROMEDRIVER_EXTRA_ARGS ''
 EXPOSE 4444
 EXPOSE 6700
 
-RUN pip install selenium pyyaml loguru --no-cache-dir && \
-    pip install flask flask_restful cryptography==2.6.1 --no-cache-dir
+
+RUN pip install selenium --no-cache-dir && \
+    pip install loguru --no-cache-dir && \
+    pip install pyyaml --no-cache-dir && \
+    pip install flask --no-cache-dir && \
+    pip install flask_restful --no-cache-dir && \
+    pip install cryptography==2.6.1 --no-cache-dir
 
 RUN mkdir -p /opt/dockerbot \
     mkdir -p /opt/dockerbot/config \
