@@ -1,6 +1,6 @@
-import time, re, random, datetime, telepot
+import time, re, random, datetime
 from subprocess import call
-import subprocess, os, sys
+import subprocess, os, sys, shutil
 from telepot.loop import MessageLoop
 from flask import Flask, request, make_response, render_template, url_for, g, send_file
 from flask import send_from_directory, jsonify
