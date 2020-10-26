@@ -1,5 +1,5 @@
   
-FROM debian:stretch
+FROM debian:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
