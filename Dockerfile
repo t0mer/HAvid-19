@@ -1,5 +1,5 @@
   
-FROM debian:latest
+FROM python
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
