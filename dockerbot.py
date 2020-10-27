@@ -52,9 +52,9 @@ def sign_edu():
 @app.route('/edu/statement')
 def edu_statement():
     if os.path.exists(edu_Image):
-        return send_file(str(edu_Image), mimetype='image/png', cache_timeout=0)
+        return send_file(str(edu_Image), mimetype='image/png', cache_timeout=-1)
     else:
-        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=0)
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
 
 @app.route('/webtop/sign')
@@ -77,9 +77,9 @@ def sign_webtop():
 @app.route('/webtop/statement')
 def webtop_statement():
     if os.path.exists(webtop_Image):
-        return send_file(str(webtop_Image), mimetype='image/png', cache_timeout=0)
+        return send_file(str(webtop_Image), mimetype='image/png', cache_timeout=-1)
     else:
-        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=0)
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
 
 @app.route('/infogan/sign')
@@ -102,9 +102,9 @@ def sign_infogan():
 @app.route('/infogan/statement')
 def infogan_statement():
     if os.path.exists(infogan_Image):
-        return send_file(str(infogan_Image), mimetype='image/png', cache_timeout=0)
+        return send_file(str(infogan_Image), mimetype='image/png', cache_timeout=-1)
     else:
-        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=0)
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
 
 
