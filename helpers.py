@@ -24,6 +24,22 @@ def GetBrowser():
     browser = webdriver.Chrome(executable_path='/opt/chromedriver-86.0.4240.22/chromedriver', options=options)
     return browser
 
+
+def GetMobileBrowser():
+    options = webdriver.ChromeOptions()
+    options.add_argument("-incognito")
+    options.add_argument("--headless")
+    options.add_argument("disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument('--start-maximized')
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--window-size=360,640")
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1')
+    browser = webdriver.Chrome(executable_path='/opt/chromedriver-86.0.4240.22/chromedriver', options=options)
+    return browser
+
+
 ##### Screenshot for mobile view - like webtop #####
 def mobile_screenshot(browser,Image):
     if path.exists(Image):
@@ -43,6 +59,16 @@ def fullpage_screenshot(browser,Image):
     time.sleep(2)
     browser.save_screenshot(Image)
     
+#### Screenshot for regular view ####
+def largepage_screenshot(browser,Image):
+    if path.exists(Image):
+        os.remove(Image)
+    logger.info(browser)
+    browser.set_window_size(800, 2070) #the trick
+    time.sleep(2)
+    browser.save_screenshot(Image)
+    
+
 
 #### Browser state logging ####
 def log_browser(browser):

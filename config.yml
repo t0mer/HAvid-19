@@ -21,3 +21,11 @@ infogan:
 webtop:
     USER_ID: 
     USER_KEY: 
+hbinov:
+    URL: https://portal.hbinov.com/en_US/WebApplication/Index/0381491
+    USER_NAME: 
+    PASSWORD: 
+    NAME: 
+    MOBILE: 
+    ID: 
+    SIG_FILE_NAME: 

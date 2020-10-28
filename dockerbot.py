@@ -107,6 +107,25 @@ def infogan_statement():
         return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
 
+@app.route('/hbinov/sign')
+def sign_hbinov():
+    list = ReadConfig()
+    if list['hbinov']['URL'] and list['hbinov']['USER_NAME'] and list['hbinov']['PASSWORD'] != None:
+        try:
+            logger.info("Starting Sign process at " + list['hbinov']['URL'])
+            import Hbinov_Health_Statements
+            if Hbinov_Health_Statements.sign() == 1:
+                return jsonify('{"signed":"1","data":""}')
+            else:
+                return jsonify('{"signed":"0","data":""}')
+        except Exception as ex:
+            logger.error(str(ex))
+            return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
+
+    return jsonify('{"signed":"0","data":"Edu is not configured"}')
+
+
+
 
 
 if __name__ == '__main__':
