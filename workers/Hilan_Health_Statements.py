@@ -7,9 +7,6 @@ from selenium.common.exceptions import InvalidSessionIdException
 from loguru import logger
 import helpers
 
-# from workers import Hilan_Health_Statements
-
-
 def sign(usr, passw, formUrl, Image):
 
     try:
