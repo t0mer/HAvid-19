@@ -164,6 +164,13 @@ def sign_hilan():
 
     return jsonify('{"signed":"0","data":"Hilan is not configured"}')
 
+@app.route('/hilan/statement')
+def infogan_statement():
+    if os.path.exists(hilan_Image):
+        return send_file(str(hilan_Image), mimetype='image/png', cache_timeout=-1)
+    else:
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
+
 
 #### Not Operational Yet ######
 @app.route('/hbinov/sign')
