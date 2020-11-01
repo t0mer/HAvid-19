@@ -1,4 +1,4 @@
-  
+
 FROM python
 
 ENV DEBIAN_FRONTEND noninteractive
