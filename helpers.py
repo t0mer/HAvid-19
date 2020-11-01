@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
 from datetime import date
 from datetime import time
 from datetime import datetime
@@ -13,7 +14,7 @@ from loguru import logger
 #### Setting ChromeOptions ####
 def GetBrowser():
     options = webdriver.ChromeOptions()
-    options.add_argument("-incognito")
+    options.add_argument("--incognito")
     options.add_argument("--headless")
     options.add_argument("disable-gpu")
     options.add_argument("--no-sandbox")
@@ -27,7 +28,7 @@ def GetBrowser():
 
 def GetMobileBrowser():
     options = webdriver.ChromeOptions()
-    options.add_argument("-incognito")
+    options.add_argument("--incognito")
     options.add_argument("--headless")
     options.add_argument("disable-gpu")
     options.add_argument("--no-sandbox")
@@ -81,3 +82,24 @@ def ping(browser, page):
         browser.get('https://bots.techblog.co.il/' + page + '.html')
     except:
         logger.info("Unable to ping")
+
+
+def get_clear_browsing_button(browser):
+    """Find the "CLEAR BROWSING BUTTON" on the Chrome settings page."""
+    return browser.find_element_by_css_selector('* /deep/ #clearBrowsingDataConfirm')
+
+
+def clear_cache(browser, timeout=60):
+    """Clear the cookies and cache for the ChromeDriver instance."""
+    # navigate to the settings page
+    browser.get('chrome://settings/clearBrowserData')
+
+    # wait for the button to appear
+    wait = WebDriverWait(browser, timeout)
+    wait.until(get_clear_browsing_button)
+
+    # click the button to clear the cache
+    get_clear_browsing_button(browser).click()
+
+    # wait for the button to be gone before returning
+    wait.until_not(get_clear_browsing_button)

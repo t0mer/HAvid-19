@@ -13,6 +13,7 @@ default_Image = '/opt/dockerbot/please_sign.jpg'
 webtop_Image = '/opt/dockerbot/images/webtop_approval.png'
 infogan_Image = '/opt/dockerbot/images/infogan_approval.png'
 hilan_Image = '/opt/dockerbot/images/hilan_approval.png'
+hbinov_Image = '/opt/dockerbot/images/hbinov_approval.png'
 
 def CopyConfig():
     if not os.path.exists(configfile):
@@ -140,7 +141,7 @@ def mashov_sign():
         return jsonify('{"signed":"0","data":"Mashov is not configured"}')
 
 @app.route('/mashov/statement')
-def hbinov_statement():
+def mashov_statement():
     Image = '/opt/dockerbot/images/mashov_approval_' + str(request.args.get('kid')) + '.png'
     if os.path.exists(Image):
         return send_file(str(Image), mimetype='image/png', cache_timeout=-1)
@@ -180,7 +181,7 @@ def sign_hbinov():
         try:
             logger.info("Starting Sign process at " + list['hbinov']['URL'])
             import Hbinov_Health_Statements
-            if Hbinov_Health_Statements.sign() == 1:
+            if Hbinov_Health_Statements.sign(hbinov_Image) == 1:
                 return jsonify('{"signed":"1","data":""}')
             else:
                 return jsonify('{"signed":"0","data":""}')
@@ -190,6 +191,12 @@ def sign_hbinov():
 
     return jsonify('{"signed":"0","data":"Edu is not configured"}')
 
+@app.route('/hbinov/statement')
+def hbinov_statement():
+    if os.path.exists(hbinov_Image):
+        return send_file(str(hbinov_Image), mimetype='image/png', cache_timeout=-1)
+    else:
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
 
 

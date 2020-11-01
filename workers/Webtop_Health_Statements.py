@@ -12,7 +12,7 @@ def sign(userCode, sitePassword, Image):
         logger.info("Starting process")
 
         try:
-            helpers.ping(browser, 'infogan')
+            helpers.ping(browser, 'webtop')
         except:
             logger.debug('Unable to ping')
 
