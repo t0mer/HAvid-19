@@ -30,8 +30,7 @@ def sign(usr, passw, formUrl, Image):
         browser.find_element_by_xpath('//*[@type="submit"]').click()
         time.sleep(4)
         browser.find_element_by_xpath('//*[@for="chkApprove"]').click()
-
-
+        browser.find_element_by_xpath('//*[@id="btnSubmit"]').click()
 
         helpers.log_browser(browser)
         helpers.fullpage_screenshot(browser,Image)
