@@ -173,7 +173,7 @@ def sign_hbinov():
         try:
             logger.info("Starting Sign process at " + list['hbinov']['URL'])
             import Hbinov_Health_Statements
-            if Hbinov_Health_Statements.sigשמn() == 1:
+            if Hbinov_Health_Statements.sign() == 1:
                 return jsonify('{"signed":"1","data":""}')
             else:
                 return jsonify('{"signed":"0","data":""}')
