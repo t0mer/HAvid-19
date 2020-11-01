@@ -12,6 +12,7 @@ edu_Image = '/opt/dockerbot/images/edu_approval.png'
 default_Image = '/opt/dockerbot/please_sign.jpg'
 webtop_Image = '/opt/dockerbot/images/webtop_approval.png'
 infogan_Image = '/opt/dockerbot/images/infogan_approval.png'
+hilan_Image = '/opt/dockerbot/images/hilan_approval.png'
 
 def CopyConfig():
     if not os.path.exists(configfile):
@@ -146,7 +147,29 @@ def hbinov_statement():
     else:
         return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
+@app.route('/hilan/sign')
+def sign_hilan():
+    list = ReadConfig()
+    if list['hilan']['URL'] and list['hilan']['EMPLOYEE_NUM'] and list['hilan']['PASSWORD']  != None:
+        try:
+            logger.info("Starting Sign process at " + list['hilan']['URL'])
+            import Hilan_Health_Statements
+            if Hilan_Health_Statements.sign(list['hilan']['EMPLOYEE_NUM'], str(list['hilan']['PASSWORD']),  list['hilan']['URL'], hilan_Image) == 1:
+                return jsonify('{"signed":"1","data":""}')
+            else:
+                return jsonify('{"signed":"0","data":""}')
+        except Exception as ex:
+            logger.error(str(ex))
+            return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
 
+    return jsonify('{"signed":"0","data":"Hilan is not configured"}')
+
+@app.route('/hilan/statement')
+def hilan_statement():
+    if os.path.exists(hilan_Image):
+        return send_file(str(hilan_Image), mimetype='image/png', cache_timeout=-1)
+    else:
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
 
 #### Not Operational Yet ######
@@ -157,7 +180,7 @@ def sign_hbinov():
         try:
             logger.info("Starting Sign process at " + list['hbinov']['URL'])
             import Hbinov_Health_Statements
-            if Hbinov_Health_Statements.sigשמn() == 1:
+            if Hbinov_Health_Statements.sign() == 1:
                 return jsonify('{"signed":"1","data":""}')
             else:
                 return jsonify('{"signed":"0","data":""}')
