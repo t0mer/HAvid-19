@@ -5,6 +5,7 @@ from datetime import date, datetime
 import time, os
 from selenium.common.exceptions import InvalidSessionIdException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 from loguru import logger
 import helpers, yaml
 configfile="/opt/dockerbot/config/config.yml"
@@ -23,7 +24,9 @@ def sign():
     list = ReadConfig()
     try:
         logger.info("Starting process")
-        browser = helpers.GetMobileBrowser()
+        browser = helpers.GetBrowser()
+       
+        time.sleep(1)
         try:
             helpers.ping(browser, 'infogan')
         except:
@@ -31,8 +34,10 @@ def sign():
 
         browser.get(str(list['hbinov']['URL']))
         time.sleep(1)
+
+
         
-        #get needed elements
+        # #get needed elements
         Identity = '//*[@id="Identity"]' 
         Password = '//*[@id="Password"]' 
         Login = '//*[@id="login"]' 
@@ -53,66 +58,78 @@ def sign():
         time.sleep(2)
         logger.info("Logged in!")
 
+        browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[2]/div[1]/a').click()
+        time.sleep(1)
+
+
+        # browser.find_element_by_id('ProjectId').send_keys("אדמה מכתשים - נאות חובב", Keys.ENTER)
+       
+        project = browser.find_element_by_xpath('//*[@id="ProjectId"]')
+        browser.execute_script("arguments[0].setAttribute('value', 'אדמה מכתשים - נאות חובב')", project)
+        helpers.fullpage_screenshot(browser,'/opt/dockerbot/images/test1.png')
+        # project.click()
+        # project.send_keys(Keys.ARROW_DOWN)
+        # project.send_keys(Keys.RETURN)
+
+
+        # review = browser.find_element_by_xpath('/html/body/div[2]/div/div/div/div[2]/div[2]/div/div/span/span/span[1]')
+        # review.click()
+        # review.send_keys(Keys.ARROW_DOWN)
+        # review.send_keys(Keys.RETURN)
+
+        # browser.find_element_by_xpath('//*[@id="setupSave"]').click()
+
+
+        
+        # helpers.largepage_screenshot(browser,'/opt/dockerbot/images/step_2.png')
+
+
 
         ######### Filling up the form ############
 
 
-        browser.find_element_by_xpath(Full_Name).clear()
-        browser.find_element_by_xpath(Full_Name).send_keys(str(list['hbinov']['NAME']))
+        # browser.find_element_by_xpath(Full_Name).clear()
+        # browser.find_element_by_xpath(Full_Name).send_keys(str(list['hbinov']['NAME']))
         
-        browser.find_element_by_xpath(Mobile_Phone).clear()
-        browser.find_element_by_xpath(Mobile_Phone).send_keys(str(list['hbinov']['MOBILE']))
+        # browser.find_element_by_xpath(Mobile_Phone).clear()
+        # browser.find_element_by_xpath(Mobile_Phone).send_keys(str(list['hbinov']['MOBILE']))
         
-        browser.find_element_by_xpath(Worker_ID).clear()
-        browser.find_element_by_xpath(Worker_ID).send_keys(str(list['hbinov']['ID']))
+        # browser.find_element_by_xpath(Worker_ID).clear()
+        # browser.find_element_by_xpath(Worker_ID).send_keys(str(list['hbinov']['ID']))
         
-        browser.find_element_by_xpath('//*[@id="466557"]').click()
-        browser.find_element_by_xpath('//*[@id="466559"]').click()
-        browser.find_element_by_xpath('//*[@id="466561"]').click()
+        # browser.find_element_by_xpath('//*[@id="466557"]').click()
+        # browser.find_element_by_xpath('//*[@id="466559"]').click()
+        # browser.find_element_by_xpath('//*[@id="466561"]').click()
         
 
-        browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[2]/div[2]/div/div[10]/div/div[2]/div/div[1]').click()
-        time.sleep(1)
+        # browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[2]/div[2]/div/div[10]/div/div[2]/div/div[1]').click()
+        # time.sleep(1)
 
-        canvas = browser.find_element_by_class_name("sigCanvas")
-        drawing = ActionChains(browser)\
-            .click_and_hold(canvas)\
-            .move_by_offset(0, 0)\
-            .move_by_offset(20, 32)\
-            .move_by_offset(10, 25)\
-            .release()
-        drawing.perform()
+        # canvas = browser.find_element_by_class_name("sigCanvas")
+        # drawing = ActionChains(browser)\
+        #     .click_and_hold(canvas)\
+        #     .move_by_offset(0, 0)\
+        #     .move_by_offset(20, 32)\
+        #     .move_by_offset(10, 25)\
+        #     .release()
+        # drawing.perform()
 
-        browser.find_element_by_xpath('/html/body/aside[2]/div/div/a[2]').click()
-
-
-    
-
-
-        helpers.log_browser(browser)
-        helpers.largepage_screenshot(browser,'/opt/dockerbot/images/step2.png')
+        # browser.find_element_by_xpath('/html/body/aside[2]/div/div/a[2]').click()
         
+        # signiture = browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[2]/div[2]/div/div[10]/div/div[2]/div/div[2]/img')
+        # with open('/opt/dockerbot/config/' + str(list['hbinov']['SIG_FILE']) , 'r') as file:
+        #     data = file.read().replace('\n', '')
+        #     browser.execute_script("arguments[0].setAttribute('src', '"+ data +"')", signiture);
+
+
+        # browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[1]/div[3]/div/a').click()
+
         
-        
-        # #Fill Kid Name
-        # browser.find_element_by_xpath(kid_name).send_keys(str(kidName)) 
-        # #Fill Parent ID
-        # browser.find_element_by_xpath(parent_id).send_keys(str(parentId)) 
-        # #Fill Parent NAme 
-        # browser.find_element_by_xpath(parent_name).send_keys(str(parentName)) 
 
-        # #Set Checkbox
-        # browser.find_element_by_xpath('//*[@id="form-field-field_1-0"]').click()
-        # browser.find_element_by_xpath('//*[@id="form-field-field_1-1"]').click()
-        # browser.find_element_by_xpath('//*[@id="form-field-field_1-2"]').click()
-        # browser.find_element_by_xpath('//*[@id="form-field-field_5"]').click()
-
-        # #Send The Form
-        # browser.find_element_by_xpath('//*[@type="submit"]').submit()
-
-        # time.sleep(2)
         # helpers.log_browser(browser)
-        # helpers.fullpage_screenshot(browser,Image)
+        # helpers.fullpage_screenshot(browser,'/opt/dockerbot/images/step2.png')
+        
+       
         return 1
     except Exception as ex:
         logger.error(str(ex))

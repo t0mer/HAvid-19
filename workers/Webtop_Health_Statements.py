@@ -29,13 +29,16 @@ def sign(userCode, sitePassword, Image):
         time.sleep(2)
         browser.get("https://www.webtop.co.il/mobilev2/corona.aspx")
         time.sleep(1)
-        sign_btn=browser.find_element_by_xpath('//*[@id="viewData"]')
-        if 'disabled' not in sign_btn.get_attribute('class').split():
-            logger.info("class: " + sign_btn.get_attribute('class'))
-            sign_btn.click()
-            time.sleep(1)
-            browser.find_element_by_xpath('//*[@id="signForm"]').click()
-            time.sleep(2)
+        try:
+            sign_btn=browser.find_element_by_xpath('//*[@id="viewData"]')
+            if 'disabled' not in sign_btn.get_attribute('class').split():
+                logger.info("class: " + sign_btn.get_attribute('class'))
+                sign_btn.click()
+                time.sleep(1)
+                browser.find_element_by_xpath('//*[@id="signForm"]').click()
+                time.sleep(2)
+        except:
+                
         helpers.log_browser(browser)
         helpers.mobile_screenshot(browser,Image)
         return 1

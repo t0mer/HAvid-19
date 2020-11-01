@@ -107,6 +107,49 @@ def infogan_statement():
         return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
 
+
+@app.route('/mashov/sign')
+def mashov_sign():
+    list = ReadConfig()
+    v_MASHOV_NUMBER_OF_KIDS = len(list['mashov'])
+    if v_MASHOV_NUMBER_OF_KIDS >= 1 and list['mashov']['kid1']['MASHOV_USER_ID_KID'] != None:
+        v_MASHOV_NUMBER_OF_KIDS = v_MASHOV_NUMBER_OF_KIDS + 1
+
+    Image = '/opt/dockerbot/images/mashov_approval_'
+    if v_MASHOV_NUMBER_OF_KIDS >= 1 and list['mashov']['kid1']['MASHOV_USER_ID_KID'] != None:
+        try:
+            import Mashov_Health_Statements
+            if v_MASHOV_NUMBER_OF_KIDS >= 1 and list['mashov']['kid1']['MASHOV_USER_ID_KID'] != None:
+                for Mashov_Kid_Number in range(1, v_MASHOV_NUMBER_OF_KIDS, 1):
+                    if list['mashov']['kid'+str(Mashov_Kid_Number)]['MASHOV_USER_ID_KID'] and list['mashov']['kid'+str(Mashov_Kid_Number)]['MASHOV_USER_PWD_KID'] and list['mashov']['kid'+str(Mashov_Kid_Number)]['MASHOV_SCHOOL_ID_KID'] != None:
+                        logger.info("Starting Sign process at https://web.mashov.info/students/login for Kid Number: " + str(Mashov_Kid_Number))
+                        Prep_Switch_MASHOV_USER_DICT_ID_KID = list['mashov']['kid'+str(Mashov_Kid_Number)]['MASHOV_USER_ID_KID']
+                        Prep_Switch_MASHOV_USER_DICT_ID_PWD = list['mashov']['kid'+str(Mashov_Kid_Number)]['MASHOV_USER_PWD_KID']
+                        Prep_Switch_MASHOV_USER_DICT_ID_SCHOOL_ID = list['mashov']['kid'+str(Mashov_Kid_Number)]['MASHOV_SCHOOL_ID_KID']                     
+                        Mashov_Health_Statements.sign(Prep_Switch_MASHOV_USER_DICT_ID_KID, Prep_Switch_MASHOV_USER_DICT_ID_PWD, Prep_Switch_MASHOV_USER_DICT_ID_SCHOOL_ID, str(Mashov_Kid_Number), Image + str(Mashov_Kid_Number) + ".png")
+            else:
+                return jsonify('{"signed":"0","data":"Mashov is not configured"}')
+                config_mashov = 0
+        except Exception as ex:
+            logger.exception("Faild to sign Mashov, Msg: " + str(ex))
+            return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
+        return jsonify('{"signed":"1","data":""}')
+            
+    else:
+        return jsonify('{"signed":"0","data":"Mashov is not configured"}')
+
+@app.route('/mashov/statement')
+def hbinov_statement():
+    Image = '/opt/dockerbot/images/mashov_approval_' + str(request.args.get('kid')) + '.png'
+    if os.path.exists(Image):
+        return send_file(str(Image), mimetype='image/png', cache_timeout=-1)
+    else:
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
+
+
+
+
+#### Not Operational Yet ######
 @app.route('/hbinov/sign')
 def sign_hbinov():
     list = ReadConfig()
@@ -114,7 +157,7 @@ def sign_hbinov():
         try:
             logger.info("Starting Sign process at " + list['hbinov']['URL'])
             import Hbinov_Health_Statements
-            if Hbinov_Health_Statements.sign() == 1:
+            if Hbinov_Health_Statements.sigשמn() == 1:
                 return jsonify('{"signed":"1","data":""}')
             else:
                 return jsonify('{"signed":"0","data":""}')
@@ -123,7 +166,6 @@ def sign_hbinov():
             return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
 
     return jsonify('{"signed":"0","data":"Edu is not configured"}')
-
 
 
 
