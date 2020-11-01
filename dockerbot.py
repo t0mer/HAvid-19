@@ -152,7 +152,7 @@ def sign_hilan():
     list = ReadConfig()
     if list['hilan']['URL'] and list['hilan']['EMPLOYEE_NUM'] and list['hilan']['PASSWORD']  != None:
         try:
-            logger.info("Starting Sign process at " + ['hilan']['URL'])
+            logger.info("Starting Sign process at " + list['hilan']['URL'])
             import Hilan_Health_Statements
             if Hilan_Health_Statements.sign(list['hilan']['EMPLOYEE_NUM'], str(list['hilan']['PASSWORD']),  list['hilan']['URL'], hilan_Image) == 1:
                 return jsonify('{"signed":"1","data":""}')
