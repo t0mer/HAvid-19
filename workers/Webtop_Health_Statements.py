@@ -37,7 +37,8 @@ def sign(userCode, sitePassword, Image):
                 time.sleep(1)
                 browser.find_element_by_xpath('//*[@id="signForm"]').click()
                 time.sleep(2)
-        except:
+        except Exception as ex:
+            logger.error(str(ex))
                 
         helpers.log_browser(browser)
         helpers.mobile_screenshot(browser,Image)
