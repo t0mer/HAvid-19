@@ -3,7 +3,7 @@ import time, re, random, datetime
 from subprocess import call
 import subprocess, os, sys, shutil, yaml
 from flask import Flask, request, make_response, render_template, url_for, g, send_file
-from flask import send_from_directory, jsonify
+from flask import send_from_directory, jsonify, redirect
 from flask_restful import Resource, Api
  
 configfile="/opt/dockerbot/config/config.yml"
@@ -41,8 +41,7 @@ def sign_edu():
         try:
             logger.info("Starting Sign process at https://parents.education.gov.i")
             import Health_Statements
-            if Health_Statements.sign(str(list['edu']['USER_ID']), list['edu']['USER_KEY'], edu_Image) == 1:
-                return jsonify('{"signed":"1","data":""}')
+                return redirect("/edu/statement", code=302)
             else:
                 return jsonify('{"signed":"0","data":""}')
         except Exception as ex:
@@ -67,7 +66,7 @@ def sign_webtop():
             logger.info("Starting Sign process at https://parents.education.gov.i")
             import Webtop_Health_Statements
             if Webtop_Health_Statements.sign(list['webtop']['USER_ID'], list['webtop']['USER_KEY'], webtop_Image) == 1:
-                return jsonify('{"signed":"1","data":""}')
+                return redirect("/webtop/statement", code=302)
             else:
                 return jsonify('{"signed":"0","data":""}')
         except Exception as ex:
@@ -94,7 +93,7 @@ def sign_infogan():
             if Infogan_Health_Statements.sign(list['infogan']['PARENT_NAME'], str(list['infogan']['PARENT_ID']),  list['infogan']['KID_NAME'], str(list['infogan']['KID_ID']), list['infogan']['BASE_URL'], infogan_Image) == 1:
                 return jsonify('{"signed":"1","data":""}')
             else:
-                return jsonify('{"signed":"0","data":""}')
+                return redirect("/infogan/statement", code=302)
         except Exception as ex:
             logger.error(str(ex))
             return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
@@ -135,7 +134,7 @@ def mashov_sign():
         except Exception as ex:
             logger.exception("Faild to sign Mashov, Msg: " + str(ex))
             return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
-        return jsonify('{"signed":"1","data":""}')
+        return redirect("/mashov/statement", code=302)
             
     else:
         return jsonify('{"signed":"0","data":"Mashov is not configured"}')
@@ -156,7 +155,7 @@ def sign_hilan():
             logger.info("Starting Sign process at " + list['hilan']['URL'])
             import Hilan_Health_Statements
             if Hilan_Health_Statements.sign(list['hilan']['EMPLOYEE_NUM'], str(list['hilan']['PASSWORD']),  list['hilan']['URL'], hilan_Image) == 1:
-                return jsonify('{"signed":"1","data":""}')
+                return redirect("/hilan/statement", code=302)
             else:
                 return jsonify('{"signed":"0","data":""}')
         except Exception as ex:
@@ -182,7 +181,7 @@ def sign_hbinov():
             logger.info("Starting Sign process at " + list['hbinov']['URL'])
             import Hbinov_Health_Statements
             if Hbinov_Health_Statements.sign(hbinov_Image) == 1:
-                return jsonify('{"signed":"1","data":""}')
+                return redirect("/hbinov/statement", code=302)
             else:
                 return jsonify('{"signed":"0","data":""}')
         except Exception as ex:
