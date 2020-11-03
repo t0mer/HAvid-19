@@ -32,7 +32,7 @@ def sign(userCode, sitePassword, Image):
         helpers.fullpage_screenshot(browser,Image)
         helpers.log_browser(browser)
         browser.find_element_by_xpath(start).click()
-        time.sleep(2)
+        time.sleep(3)
         
         #### Logging In ####
         user = '//*[@id="HIN_USERID"]'
@@ -44,7 +44,7 @@ def sign(userCode, sitePassword, Image):
         time.sleep(2)
         helpers.log_browser(browser)
         logger.info(f"Logged in")
-        time.sleep(3)
+        time.sleep(4)
 
         try:
             element = "//input[@value='מילוי הצהרת בריאות']"

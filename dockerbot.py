@@ -213,7 +213,7 @@ def sign_hbinov():
             logger.error(str(ex))
             return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
 
-    return jsonify('{"signed":"0","data":"Edu is not configured"}')
+    return jsonify('{"signed":"0","data":"hbinov is not configured"}')
 
 @app.route('/hbinov/statement')
 def hbinov_statement():
