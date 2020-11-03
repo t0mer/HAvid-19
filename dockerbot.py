@@ -203,7 +203,7 @@ def sign_hbinov():
     list = ReadConfig()
     if list['hbinov']['URL'] and list['hbinov']['USER_NAME'] and list['hbinov']['PASSWORD'] != None:
         try:
-            logger.info("Starting Sign process at Amdocs" + list['hbinov']['URL'])
+            logger.info("Starting Sign process at " + list['hbinov']['URL'])
             import Hbinov_Health_Statements
             if Hbinov_Health_Statements.sign(hbinov_Image) == 1:
                 return jsonify('{"signed":"1","data":""}')
