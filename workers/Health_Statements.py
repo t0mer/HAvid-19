@@ -44,7 +44,7 @@ def sign(userCode, sitePassword, Image):
         time.sleep(2)
         helpers.log_browser(browser)
         logger.info(f"Logged in")
-        time.sleep(2)
+        time.sleep(3)
 
         try:
             element = "//input[@value='מילוי הצהרת בריאות']"
