@@ -13,6 +13,7 @@ default_Image = '/opt/dockerbot/please_sign.jpg'
 webtop_Image = '/opt/dockerbot/images/webtop_approval.png'
 infogan_Image = '/opt/dockerbot/images/infogan_approval.png'
 hilan_Image = '/opt/dockerbot/images/hilan_approval.png'
+amdocs_Image = '/opt/dockerbot/images/amdocs_approval.png'
 hbinov_Image = '/opt/dockerbot/images/hbinov_approval.png'
 
 def CopyConfig():
@@ -172,6 +173,29 @@ def hilan_statement():
     else:
         return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
+@app.route('/amdocs/sign')
+def sign_amdocs():
+    list = ReadConfig()
+    if list['amdocs']['EMAIL'] and list['amdocs']['USER_ID'] and list['amdocs']['PASSWORD']  != None:
+        try:
+            logger.info("Starting Sign process at Amdocs")
+            import Amdocs_Health_Statements
+            if Amdocs_Health_Statements.sign(list['amdocs']['EMAIL'], str(list['amdocs']['USER_ID']),  list['amdocs']['PASSWORD'], amdocs_Image) == 1:
+                return jsonify('{"signed":"1","data":""}')
+            else:
+                return jsonify('{"signed":"0","data":""}')
+        except Exception as ex:
+            logger.error(str(ex))
+            return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
+
+    return jsonify('{"signed":"0","data":"Amdocs is not configured"}')
+
+@app.route('/amdocs/statement')
+def amdocs_statement():
+    if os.path.exists(amdocs_Image):
+        return send_file(str(amdocs_Image), mimetype='image/png', cache_timeout=-1)
+    else:
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
 #### Not Operational Yet ######
 @app.route('/hbinov/sign')
@@ -179,7 +203,7 @@ def sign_hbinov():
     list = ReadConfig()
     if list['hbinov']['URL'] and list['hbinov']['USER_NAME'] and list['hbinov']['PASSWORD'] != None:
         try:
-            logger.info("Starting Sign process at " + list['hbinov']['URL'])
+            logger.info("Starting Sign process at Amdocs" + list['hbinov']['URL'])
             import Hbinov_Health_Statements
             if Hbinov_Health_Statements.sign(hbinov_Image) == 1:
                 return jsonify('{"signed":"1","data":""}')
