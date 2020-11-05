@@ -20,7 +20,8 @@ def sign(userCode, sitePassword, Image):
         time.sleep(1)
         browser.find_element_by_xpath('//*[@id="misradHachinuch"]').click()
         time.sleep(2)
-
+        browser.find_element_by_xpath('//*[@id="blocker"]').click()
+        time.sleep(1)
         browser.find_element_by_xpath('//*[@id="HIN_USERID"]').send_keys(str(userCode)) 
         browser.find_element_by_xpath('//*[@id="Ecom_Password"]').send_keys(str(sitePassword)) 
         browser.find_element_by_xpath('//*[@id="loginButton2"]').click()
