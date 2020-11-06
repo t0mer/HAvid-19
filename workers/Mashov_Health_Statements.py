@@ -14,7 +14,7 @@ def sign(user, password, schoolid, kidnum, Image):
         logger.info("Starting process")
 
         try:
-            helpers.ping(browser, 'infogan')
+            helpers.ping(browser, 'mashov')
         except:
             logger.debug('Unable to ping')
         logger.debug('----------------------------------------------------------------------')
@@ -31,7 +31,6 @@ def sign(user, password, schoolid, kidnum, Image):
 
 
         form_element_mashov_select_school.click()
-        #form_element_mashov_select_school.send_keys(_convert(var_mashov_school_id)) # Moving to identify by school number instead of school name
         form_element_mashov_select_school.send_keys(schoolid)
         form_element_mashov_select_school.send_keys(Keys.ARROW_DOWN)
         form_element_mashov_select_school.send_keys(Keys.RETURN)
@@ -45,32 +44,20 @@ def sign(user, password, schoolid, kidnum, Image):
 
         logger.info(f"Logged in") 
 
-        form_element_mashov_select_daily_corona_report = browser.find_element_by_xpath("//*[@id='mainView']/mat-sidenav-content/mshv-student-covidsplash/mat-card/mat-card-content/div[3]/mat-card")
+        form_element_mashov_select_daily_corona_report = browser.find_element_by_xpath("/html/body/mshv-root/mshv-main/mat-sidenav-container/mat-sidenav-content/mshv-student-covidsplash/mat-card/mat-card-content/div[3]/mat-card")
         form_element_mashov_select_daily_corona_report.click()
-        time.sleep(10)
+        time.sleep(2)
 
-        form_element_mashov_select_option1 = browser.find_element_by_xpath("//*[@id='mat-checkbox-1']/label/div")
-        form_element_mashov_select_option2 = browser.find_element_by_xpath("//*[@id='mat-checkbox-2']/label/div")
-        form_element_mashov_check_if_selected_option1 = browser.find_element_by_xpath("//*[@id='mat-checkbox-1-input']").get_attribute("aria-checked")
-        form_element_mashov_check_if_selected_option2 = browser.find_element_by_xpath("//*[@id='mat-checkbox-2-input']").get_attribute("aria-checked")
-        form_element_mashov_submit_report = browser.find_element_by_xpath("//*[@id='mainView']/mat-sidenav-content/mshv-students-covid-clearance/mat-card/mat-card-actions/button");
+        form_element_mashov_submit_report = browser.find_element_by_xpath("/html/body/mshv-root/mshv-main/mat-sidenav-container/mat-sidenav-content/mshv-students-covid-clearance/mat-card/mat-card/mat-card-content[2]/mat-card-actions/button")
+        if 'אני מצהיר' in form_element_mashov_submit_report.text:
+            form_element_mashov_submit_report.click()
 
-        if form_element_mashov_check_if_selected_option1 != ("true"):
-            form_element_mashov_select_option1.click()
-            time.sleep(2)
-
-
-        if form_element_mashov_check_if_selected_option2 != ("true"):
-            form_element_mashov_select_option2.click()
-            time.sleep(2)
-
-        form_element_mashov_submit_report.click()
 
         logger.info(f"Submitted Report")
-        time.sleep(3) 
+        time.sleep(1) 
 
         helpers.log_browser(browser)
-        helpers.mobile_screenshot(browser,Image)        
+        helpers.fullpage_screenshot(browser,Image)        
         
         logger.info(f"Screenshot Saved")
         logger.info("Finished Mashov Sign process for kid number: " + kidnum)

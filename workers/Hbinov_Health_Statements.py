@@ -5,6 +5,9 @@ from datetime import date, datetime
 import time, os
 from selenium.common.exceptions import InvalidSessionIdException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from loguru import logger
 import helpers, yaml
@@ -20,7 +23,7 @@ def ReadConfig():
             logger.error("Error Reading Configuration, Msg: " + str(ex))
             return ""
 
-def sign():
+def sign(Image):
     list = ReadConfig()
     try:
         logger.info("Starting process")
@@ -28,7 +31,7 @@ def sign():
        
         time.sleep(1)
         try:
-            helpers.ping(browser, 'infogan')
+            helpers.ping(browser, 'hbinov')
         except:
             logger.debug('Unable to ping')
 
@@ -61,73 +64,60 @@ def sign():
         browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[2]/div[1]/a').click()
         time.sleep(1)
 
-
-        # browser.find_element_by_id('ProjectId').send_keys("אדמה מכתשים - נאות חובב", Keys.ENTER)
-       
-        project = browser.find_element_by_xpath('//*[@id="ProjectId"]')
-        browser.execute_script("arguments[0].setAttribute('value', 'אדמה מכתשים - נאות חובב')", project)
-        helpers.fullpage_screenshot(browser,'/opt/dockerbot/images/test1.png')
-        # project.click()
-        # project.send_keys(Keys.ARROW_DOWN)
-        # project.send_keys(Keys.RETURN)
-
-
-        # review = browser.find_element_by_xpath('/html/body/div[2]/div/div/div/div[2]/div[2]/div/div/span/span/span[1]')
-        # review.click()
-        # review.send_keys(Keys.ARROW_DOWN)
-        # review.send_keys(Keys.RETURN)
-
-        # browser.find_element_by_xpath('//*[@id="setupSave"]').click()
-
-
+        logger.info('Selecting Project and Review')
+        project = browser.find_element_by_xpath("//span[@aria-owns='ProjectId_listbox']")
+        project.click()
+        project.send_keys(Keys.ARROW_DOWN)
+        project.send_keys(Keys.RETURN)
         
-        # helpers.largepage_screenshot(browser,'/opt/dockerbot/images/step_2.png')
-
-
-
+        ReviewInfoId = browser.find_element_by_xpath("//span[@aria-owns='ReviewInfoId_listbox']")
+        ReviewInfoId.click()
+        ReviewInfoId.send_keys(Keys.ARROW_DOWN)
+        ReviewInfoId.send_keys(Keys.RETURN)
+        
+        browser.find_element_by_xpath('//*[@id="setupSave"]').click()      
+        time.sleep(2)
+        helpers.log_browser(browser)
         ######### Filling up the form ############
 
-
-        # browser.find_element_by_xpath(Full_Name).clear()
-        # browser.find_element_by_xpath(Full_Name).send_keys(str(list['hbinov']['NAME']))
+        helpers.fullpage_screenshot(browser, Image)
+        browser.find_element_by_xpath(Full_Name).clear()
+        browser.find_element_by_xpath(Full_Name).send_keys(str(list['hbinov']['NAME']))
         
-        # browser.find_element_by_xpath(Mobile_Phone).clear()
-        # browser.find_element_by_xpath(Mobile_Phone).send_keys(str(list['hbinov']['MOBILE']))
+        browser.find_element_by_xpath(Mobile_Phone).clear()
+        browser.find_element_by_xpath(Mobile_Phone).send_keys(str(list['hbinov']['MOBILE']))
         
-        # browser.find_element_by_xpath(Worker_ID).clear()
-        # browser.find_element_by_xpath(Worker_ID).send_keys(str(list['hbinov']['ID']))
+        browser.find_element_by_xpath(Worker_ID).clear()
+        browser.find_element_by_xpath(Worker_ID).send_keys(str(list['hbinov']['ID']))
         
-        # browser.find_element_by_xpath('//*[@id="466557"]').click()
-        # browser.find_element_by_xpath('//*[@id="466559"]').click()
-        # browser.find_element_by_xpath('//*[@id="466561"]').click()
-        
-
-        # browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[2]/div[2]/div/div[10]/div/div[2]/div/div[1]').click()
-        # time.sleep(1)
-
-        # canvas = browser.find_element_by_class_name("sigCanvas")
-        # drawing = ActionChains(browser)\
-        #     .click_and_hold(canvas)\
-        #     .move_by_offset(0, 0)\
-        #     .move_by_offset(20, 32)\
-        #     .move_by_offset(10, 25)\
-        #     .release()
-        # drawing.perform()
-
-        # browser.find_element_by_xpath('/html/body/aside[2]/div/div/a[2]').click()
-        
-        # signiture = browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[2]/div[2]/div/div[10]/div/div[2]/div/div[2]/img')
-        # with open('/opt/dockerbot/config/' + str(list['hbinov']['SIG_FILE']) , 'r') as file:
-        #     data = file.read().replace('\n', '')
-        #     browser.execute_script("arguments[0].setAttribute('src', '"+ data +"')", signiture);
-
-
-        # browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[1]/div[3]/div/a').click()
-
+        browser.find_element_by_xpath('//*[@id="466557"]').click()
+        browser.find_element_by_xpath('//*[@id="466559"]').click()
+        browser.find_element_by_xpath('//*[@id="466561"]').click()
         
 
-        # helpers.log_browser(browser)
-        # helpers.fullpage_screenshot(browser,'/opt/dockerbot/images/step2.png')
+        browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[2]/div[2]/div/div[10]/div/div[2]/div/div[1]').click()
+        time.sleep(1)
+
+        canvas = browser.find_element_by_class_name("sigCanvas")
+        drawing = ActionChains(browser)\
+            .click_and_hold(canvas)\
+            .move_by_offset(0, 0)\
+            .move_by_offset(20, 32)\
+            .move_by_offset(10, 25)\
+            .release()
+        drawing.perform()
+
+        browser.find_element_by_xpath('/html/body/aside[2]/div/div/a[2]').click()
+        
+        signiture = browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[2]/div[2]/div/div[10]/div/div[2]/div/div[2]/img')
+        with open('/opt/dockerbot/config/' + str(list['hbinov']['SIG_FILE']) , 'r') as file:
+            data = file.read().replace('\n', '')
+            browser.execute_script("arguments[0].setAttribute('src', '"+ data +"')", signiture);
+
+        browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[1]/div[3]/div/a').click()
+
+        helpers.log_browser(browser)
+        helpers.fullpage_screenshot(browser, Image)
         
        
         return 1

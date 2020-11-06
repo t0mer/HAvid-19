@@ -12,6 +12,9 @@ edu_Image = '/opt/dockerbot/images/edu_approval.png'
 default_Image = '/opt/dockerbot/please_sign.jpg'
 webtop_Image = '/opt/dockerbot/images/webtop_approval.png'
 infogan_Image = '/opt/dockerbot/images/infogan_approval.png'
+hilan_Image = '/opt/dockerbot/images/hilan_approval.png'
+amdocs_Image = '/opt/dockerbot/images/amdocs_approval.png'
+hbinov_Image = '/opt/dockerbot/images/hbinov_approval.png'
 
 def CopyConfig():
     if not os.path.exists(configfile):
@@ -139,15 +142,60 @@ def mashov_sign():
         return jsonify('{"signed":"0","data":"Mashov is not configured"}')
 
 @app.route('/mashov/statement')
-def hbinov_statement():
+def mashov_statement():
     Image = '/opt/dockerbot/images/mashov_approval_' + str(request.args.get('kid')) + '.png'
     if os.path.exists(Image):
         return send_file(str(Image), mimetype='image/png', cache_timeout=-1)
     else:
         return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
+@app.route('/hilan/sign')
+def sign_hilan():
+    list = ReadConfig()
+    if list['hilan']['URL'] and list['hilan']['EMPLOYEE_NUM'] and list['hilan']['PASSWORD']  != None:
+        try:
+            logger.info("Starting Sign process at " + list['hilan']['URL'])
+            import Hilan_Health_Statements
+            if Hilan_Health_Statements.sign(list['hilan']['EMPLOYEE_NUM'], str(list['hilan']['PASSWORD']),  list['hilan']['URL'], hilan_Image) == 1:
+                return jsonify('{"signed":"1","data":""}')
+            else:
+                return jsonify('{"signed":"0","data":""}')
+        except Exception as ex:
+            logger.error(str(ex))
+            return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
 
+    return jsonify('{"signed":"0","data":"Hilan is not configured"}')
 
+@app.route('/hilan/statement')
+def hilan_statement():
+    if os.path.exists(hilan_Image):
+        return send_file(str(hilan_Image), mimetype='image/png', cache_timeout=-1)
+    else:
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
+
+@app.route('/amdocs/sign')
+def sign_amdocs():
+    list = ReadConfig()
+    if list['amdocs']['EMAIL'] and list['amdocs']['USER_ID'] and list['amdocs']['PASSWORD']  != None:
+        try:
+            logger.info("Starting Sign process at Amdocs")
+            import Amdocs_Health_Statements
+            if Amdocs_Health_Statements.sign(list['amdocs']['EMAIL'], str(list['amdocs']['USER_ID']),  list['amdocs']['PASSWORD'], amdocs_Image) == 1:
+                return jsonify('{"signed":"1","data":""}')
+            else:
+                return jsonify('{"signed":"0","data":""}')
+        except Exception as ex:
+            logger.error(str(ex))
+            return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
+
+    return jsonify('{"signed":"0","data":"Amdocs is not configured"}')
+
+@app.route('/amdocs/statement')
+def amdocs_statement():
+    if os.path.exists(amdocs_Image):
+        return send_file(str(amdocs_Image), mimetype='image/png', cache_timeout=-1)
+    else:
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
 #### Not Operational Yet ######
 @app.route('/hbinov/sign')
@@ -157,7 +205,7 @@ def sign_hbinov():
         try:
             logger.info("Starting Sign process at " + list['hbinov']['URL'])
             import Hbinov_Health_Statements
-            if Hbinov_Health_Statements.sigשמn() == 1:
+            if Hbinov_Health_Statements.sign(hbinov_Image) == 1:
                 return jsonify('{"signed":"1","data":""}')
             else:
                 return jsonify('{"signed":"0","data":""}')
@@ -165,8 +213,14 @@ def sign_hbinov():
             logger.error(str(ex))
             return jsonify('{"signed":"0","data":"' + str(ex) + '"}')
 
-    return jsonify('{"signed":"0","data":"Edu is not configured"}')
+    return jsonify('{"signed":"0","data":"hbinov is not configured"}')
 
+@app.route('/hbinov/statement')
+def hbinov_statement():
+    if os.path.exists(hbinov_Image):
+        return send_file(str(hbinov_Image), mimetype='image/png', cache_timeout=-1)
+    else:
+        return send_file(str(default_Image), mimetype='image/jpeg',cache_timeout=-1)
 
 
 

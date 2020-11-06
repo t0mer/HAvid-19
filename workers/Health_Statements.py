@@ -36,6 +36,7 @@ def sign(userCode, sitePassword, Image):
         helpers.log_browser(browser)
         browser.get('https://lgn.edu.gov.il/nidp/wsfed/ep?id=EduCombinedAuthUidPwd&sid=0&option=credential&sid=0')
         time.sleep(2)
+
         #### Logging In ####
         user = '//*[@id="HIN_USERID"]'
         siteAccess = '//*[@id="Ecom_Password"]'
@@ -46,7 +47,7 @@ def sign(userCode, sitePassword, Image):
         time.sleep(2)
         helpers.log_browser(browser)
         logger.info(f"Logged in")
-        time.sleep(2)
+        time.sleep(4)
 
         try:
             element = "//input[@value='מילוי הצהרת בריאות']"
