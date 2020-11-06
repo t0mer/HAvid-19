@@ -12,15 +12,19 @@ def sign(userCode, sitePassword, Image):
         logger.info("Starting process")
 
         try:
-            helpers.ping(browser, 'infogan')
+            helpers.ping(browser, 'webtop')
         except:
             logger.debug('Unable to ping')
 
         browser.get("https://www.webtop.co.il/mobilev2/?")
         time.sleep(1)
         browser.find_element_by_xpath('//*[@id="misradHachinuch"]').click()
-        time.sleep(1)
+        time.sleep(2)
+        helpers.log_browser(browser)
 
+        browser.get('https://lgn.edu.gov.il/nidp/wsfed/ep?id=EduCombinedAuthUidPwd&sid=0&option=credential&sid=0')
+        time.sleep(2)
+        helpers.log_browser(browser)
         browser.find_element_by_xpath('//*[@id="HIN_USERID"]').send_keys(str(userCode)) 
         browser.find_element_by_xpath('//*[@id="Ecom_Password"]').send_keys(str(sitePassword)) 
         time.sleep(1)
@@ -28,6 +32,7 @@ def sign(userCode, sitePassword, Image):
         browser.find_element_by_xpath('//*[@id="loginButton2"]').click()
         time.sleep(2)
         browser.get("https://www.webtop.co.il/mobilev2/corona.aspx")
+        helpers.log_browser(browser)
         time.sleep(1)
         try:
             sign_btn=browser.find_element_by_xpath('//*[@id="viewData"]')
