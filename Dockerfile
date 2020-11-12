@@ -1,5 +1,5 @@
 
-FROM python
+FROM python:3.8-slim-buster
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
