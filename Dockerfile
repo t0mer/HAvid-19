@@ -34,7 +34,7 @@ RUN apt-get -yqq update && \
 
 
 # Install Chrome WebDriver
-RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
+RUN CHROMEDRIVER_VERSION=86.0.4240.22 && \
     mkdir -p /opt/chromedriver-$CHROMEDRIVER_VERSION && \
     curl -sS -o /tmp/chromedriver_linux64.zip http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip && \
     unzip -qq /tmp/chromedriver_linux64.zip -d /opt/chromedriver-$CHROMEDRIVER_VERSION && \
@@ -92,7 +92,7 @@ VOLUME [ "/opt/config" ]
 
 RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
     echo "export CHROME_VERSION=86.0.4240.22" >> /root/.bashrc && \
-    echo 'export PATH=/opt/chromedriver-${CHROME_VERSION}:$PATH' >> /root/.bashrc && \
+    echo 'export PATH=/opt/chromedriver-${CHROME_VERSION}:$PATH' >> /root/.bashrc \
     chmod 777 /opt/dockerbot/Health_Statements.py && \
     chmod 777 /opt/dockerbot/Mashov_Health_Statements.py
 
