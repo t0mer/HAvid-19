@@ -27,16 +27,18 @@ def sign(userCode, sitePassword, Image):
             logger.debug('Unable to ping')
         
         browser.get("https://parents.education.gov.il/prhnet/parents/rights-obligations-regulations/health-statement-kindergarden")
-        start = '//*[@id="main-content"]/section[1]/div/health-declaration/div/div[1]/div[4]/div/div/div/input'
+        start = '/html/body/app-root/main/div/components-page/div/div[2]/section[1]/div/health-declaration/section[1]/div[1]/div[1]/div[4]/div/div/div/input'
         time.sleep(2)
         helpers.fullpage_screenshot(browser,Image)
         helpers.log_browser(browser)
         browser.find_element_by_xpath(start).click()
         time.sleep(2)
-        helpers.log_browser(browser)
-        browser.get('https://lgn.edu.gov.il/nidp/wsfed/ep?id=EduCombinedAuthUidPwd&sid=0&option=credential&sid=0')
-        time.sleep(2)
-
+        
+        ####  click on blocker if exists
+        blocker = '//*[@id="blocker"]'
+        browser.find_element_by_xpath(blocker).click()
+        time.sleep(1)
+        
         #### Logging In ####
         user = '//*[@id="HIN_USERID"]'
         siteAccess = '//*[@id="Ecom_Password"]'
@@ -47,7 +49,7 @@ def sign(userCode, sitePassword, Image):
         time.sleep(2)
         helpers.log_browser(browser)
         logger.info(f"Logged in")
-        time.sleep(4)
+        time.sleep(2)
 
         try:
             element = "//input[@value='מילוי הצהרת בריאות']"
