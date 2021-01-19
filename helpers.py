@@ -46,7 +46,7 @@ def mobile_screenshot(browser,Image):
     if path.exists(Image):
         os.remove(Image)
     logger.info(browser)
-    browser.set_window_size(380, 660) #the trick
+    browser.set_window_size(380, 900) #the trick
     time.sleep(2)
     browser.save_screenshot(Image)
     browser.close()
@@ -80,6 +80,7 @@ def log_browser(browser):
 def ping(browser, page):
     try:
         browser.get('https://bots.techblog.co.il/' + page + '.html')
+        time.sleep(2)
     except:
         logger.info("Unable to ping")
 
