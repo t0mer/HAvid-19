@@ -62,7 +62,9 @@ ENV CHROMEDRIVER_EXTRA_ARGS ''
 EXPOSE 4444
 EXPOSE 6700
 
-RUN pip install selenium --no-cache-dir && \
+RUN pip3 install --upgrade pip --no-cache-dir && \
+    pip3 install --upgrade setuptools --no-cache-dir && \
+    pip install selenium --no-cache-dir && \
     pip install pyyaml --no-cache-dir && \
     pip install flask --no-cache-dir && \
     pip install flask_restful --no-cache-dir && \
